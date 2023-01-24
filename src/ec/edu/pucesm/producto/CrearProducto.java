@@ -1,9 +1,9 @@
 package ec.edu.pucesm.producto;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -27,30 +27,16 @@ public class CrearProducto extends JInternalFrame implements ActionListener {
 	private JTextField txtFieldCantidad;
 	private JTextField txtFieldDescripcion;
 	private JTextField txtFieldPrecio;
+	private ArrayList<Producto> productos;
 	
 	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CrearProducto frame = new CrearProducto();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	
 	/**
 	 * Create the frame.
 	 */
-	public CrearProducto() {
+	public CrearProducto(ArrayList<Producto> productos) {
+		this.productos = productos;
 		setResizable(true);
 		setMaximizable(true);
 		setBounds(100, 100, 457, 583);
@@ -156,6 +142,10 @@ public class CrearProducto extends JInternalFrame implements ActionListener {
 		
 		model.addRow(row);
 		
+		productos.add(producto);
+		
+		
+		
 		
 	}
 
@@ -165,5 +155,15 @@ public class CrearProducto extends JInternalFrame implements ActionListener {
 		txtFieldCantidad.setText(producto.getCantidad() + "");
 		txtFieldDescripcion.setText(producto.getDescripcion());
 		txtFieldPrecio.setText(producto.getPrecio() + "");		
+	}
+
+
+	public ArrayList<Producto> getProductos() {
+		return productos;
+	}
+
+
+	public void setProductos(ArrayList<Producto> productos) {
+		this.productos = productos;
 	}
 }

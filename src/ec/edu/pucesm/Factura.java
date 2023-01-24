@@ -1,16 +1,27 @@
 package ec.edu.pucesm;
 
-import java.awt.EventQueue;
+import java.util.ArrayList;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import ec.edu.pucesm.cliente.Cliente;
+import ec.edu.pucesm.cliente.ClientesModel;
+import ec.edu.pucesm.producto.Producto;
+import ec.edu.pucesm.producto.ProductosModel;
+
 import java.awt.Color;
 import javax.swing.JButton;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Factura extends JInternalFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtFieldNombre;
 	private JTextField txtFieldCedula;
 	private JTextField txtFieldDireccion;
@@ -20,27 +31,14 @@ public class Factura extends JInternalFrame {
 	private JTextField txtFieldSubTotal;
 	private JTextField txtFieldIva;
 	private JTextField txtFieldTotal;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Factura frame = new Factura();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	private ArrayList<Cliente> clientes;
+	private ArrayList<Producto> productos;
 	/**
 	 * Create the frame.
 	 */
-	public Factura() {
+	public Factura(ArrayList<Cliente> clientes, ArrayList<Producto> productos) {
+		this.setClientes(clientes);
+		this.setProductos(productos);
 		setClosable(true);
 		setResizable(true);
 		setMaximizable(true);
@@ -92,6 +90,12 @@ public class Factura extends JInternalFrame {
 		txtFieldTelefono.setColumns(10);
 		
 		JButton agregarCliente = new JButton("Buscar Cliente");
+		agregarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ClientesModel clientModel = new ClientesModel(clientes);
+				clientModel.setVisible(true);
+			}
+		});
 		agregarCliente.setBounds(216, 34, 133, 23);
 		getContentPane().add(agregarCliente);
 		
@@ -145,6 +149,12 @@ public class Factura extends JInternalFrame {
 		txtFieldTotal.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Agregar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ProductosModel productModel = new ProductosModel(productos);
+				productModel.setVisible(true);
+			}
+		});
 		btnNewButton.setForeground(new Color(0, 128, 0));
 		btnNewButton.setBounds(304, 133, 89, 23);
 		getContentPane().add(btnNewButton);
@@ -154,5 +164,18 @@ public class Factura extends JInternalFrame {
 		btnNewButton_1.setBounds(439, 133, 89, 23);
 		getContentPane().add(btnNewButton_1);
 
+	}
+	
+	public ArrayList<Cliente> getClientes() {
+		return clientes;
+	}
+	public void setClientes(ArrayList<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+	public ArrayList<Producto> getProductos() {
+		return productos;
+	}
+	public void setProductos(ArrayList<Producto> productos) {
+		this.productos = productos;
 	}
 }

@@ -9,14 +9,17 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ec.edu.pucesm.cliente.Cliente;
 import ec.edu.pucesm.cliente.CrearCliente;
 import ec.edu.pucesm.producto.CrearProducto;
+import ec.edu.pucesm.producto.Producto;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JDesktopPane;
 import java.awt.CardLayout;
@@ -33,6 +36,12 @@ public class MenuPrincipal extends JFrame implements ActionListener{
 	private JMenuItem crearClientes;
 	private JMenuItem crearProductos;
 	private JMenuItem crearFactura;
+	CrearCliente formCliente;
+	CrearProducto formProducto;
+	
+	public ArrayList<Producto> productos=new ArrayList<>();
+	public ArrayList<Cliente> clientes=new ArrayList<>();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -107,6 +116,7 @@ public class MenuPrincipal extends JFrame implements ActionListener{
 		contentPane.add(desktopPane, "desktopPane");
 		desktopPane.setLayout(null);
 		
+		
 	}
 
 	@Override
@@ -114,17 +124,36 @@ public class MenuPrincipal extends JFrame implements ActionListener{
 		if (e.getSource() == salirApp) {
 			System.exit(EXIT_ON_CLOSE);
 		} else if (e.getSource().equals(crearClientes)) {
-			CrearCliente form = new CrearCliente();
-			crear(form);					
+			formCliente = new CrearCliente(clientes);
+			crear(formCliente);					
 		} else if (e.getSource().equals(crearProductos)) {
-			CrearProducto form = new CrearProducto();
-			crear(form);	
+			formProducto = new CrearProducto(productos);
+			crear(formProducto);	
 		} else if (e.getSource().equals(crearFactura)) {
-			Factura form = new Factura();
-			crear(form);
-			
-		}
+			Factura form = new Factura(clientes, productos);
+			crear(form);			
+		}		
 	}
+	
+	
+
+	public ArrayList<Producto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(ArrayList<Producto> productos) {
+		this.productos = productos;
+	}
+
+	public ArrayList<Cliente> getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(ArrayList<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+	
+	
 
 	private void crear(JInternalFrame form) {		
 		boolean mostrar=true;

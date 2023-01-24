@@ -1,7 +1,5 @@
 package ec.edu.pucesm.cliente;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -10,6 +8,7 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -29,30 +28,14 @@ public class CrearCliente extends JInternalFrame implements ActionListener {
 	private JButton btnAgregar;
 	private JButton btnCancelar;
 	private DefaultTableModel model;
+	private ArrayList<Cliente> clientes; 
 	
-	
-	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CrearCliente frame = new CrearCliente();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public CrearCliente() {
+	public CrearCliente(ArrayList<Cliente> clientes) {
+		this.clientes = clientes;
 		setResizable(true);
 		setMaximizable(true);
 		setBounds(100, 100, 660, 621);
@@ -153,8 +136,15 @@ public class CrearCliente extends JInternalFrame implements ActionListener {
 		table.setFillsViewportHeight(true);
 		scrollPane.setBounds(33, 395, 595, 132);
 		getContentPane().add(scrollPane);
+		
+	}
+	
+	public ArrayList<Cliente> getClientes() {
+		return clientes;
+	}
 
-
+	public void setClientes(ArrayList<Cliente> clientes) {
+		this.clientes = clientes;
 	}
 
 	@Override
@@ -173,8 +163,16 @@ public class CrearCliente extends JInternalFrame implements ActionListener {
 	private void guardar() {
 		// TODO Auto-generated method stub
 		Cliente cliente = new Cliente(Integer.parseInt(txtFieldCI.getText()), txtFieldName.getText(), txtFieldDir.getText(), Integer.parseInt(txtFieldTlf.getText()), txtFieldMail.getText());
-		String[] dataRow ={cliente.getCedula() + "", cliente.getNombres(), cliente.getDireccion(), cliente.getTelefono() + "", cliente.getEmail()};
+		String cedula = cliente.getCedula() + "";
+		String nombres = cliente.getNombres();
+		String direccion = cliente.getDireccion();
+		String telefono = cliente.getTelefono() + "";
+		String email = cliente.getEmail();
+		String[] dataRow ={cedula, nombres, direccion, telefono, email};
 		model.addRow(dataRow);
+		
+		clientes.add(cliente);
+//		System.out.print(clientes);
 		
 	}
 
@@ -188,4 +186,6 @@ public class CrearCliente extends JInternalFrame implements ActionListener {
 		txtFieldMail.setText(cliente.getEmail());
 		
 	}
+	
+	
 }

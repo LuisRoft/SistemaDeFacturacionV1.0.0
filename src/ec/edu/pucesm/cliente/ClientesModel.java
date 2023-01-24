@@ -1,41 +1,76 @@
 package ec.edu.pucesm.cliente;
 
-import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class ClientesModel extends JFrame {
 
-	private JPanel contentPane;
-
 	/**
-	 * Launch the application.
+	 * 
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ClientesModel frame = new ClientesModel();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private static final long serialVersionUID = 1L;
+	private ArrayList<Cliente> clientes; 
+	private DefaultTableModel model;
+	private JTable table;
+
 
 	/**
 	 * Create the frame.
 	 */
-	public ClientesModel() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	public ClientesModel(ArrayList<Cliente> clientes) {
+		this.clientes = clientes;
+		setTitle("Lista de Clientes");
+		setBounds(100, 100, 600, 427);
+		getContentPane().setLayout(null);
 
-		setContentPane(contentPane);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 566, 368);
+		getContentPane().add(scrollPane);
+
+		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(model.getValueAt(0, 0));
+			}
+		});
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Cedula", "Nombres", "Direccion", "Telefono", "Email" }));
+		scrollPane.setViewportView(table);
+
+
+		model = (DefaultTableModel) table.getModel();
+		CargarClientes();
+
 	}
 
+	public ArrayList<Cliente> getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(ArrayList<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+	
+	public void CargarClientes() {
+		model.setRowCount(0);
+		for (Cliente cliente : clientes) {
+			model.addRow(new Object[] {
+					cliente.getCedula(),
+					cliente.getNombres(),
+					cliente.getDireccion(),
+					cliente.getTelefono(),
+					cliente.getEmail()
+			});
+			
+		}
+				
+	}
 }
+
+
